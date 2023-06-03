@@ -1,10 +1,6 @@
-import 'package:localization_text_generator/file_manager.dart';
+import 'package:localization_text_generator/localization_generator_facade.dart';
 
 void main(List<String> arguments) {
-  FileManger fileManger = FileManger();
-
-  // all dart files
-  final dartFiles = fileManger.listDirectoryDartFiles();
-  final texts = fileManger.getScreensTexts(dartFiles);
-  print(texts);
+  LocalizationJsonFacade localizaationGenerator = LocalizationJsonFacade();
+  localizaationGenerator.generateLocalizationFile();
 }
