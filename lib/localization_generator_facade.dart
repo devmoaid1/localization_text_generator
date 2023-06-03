@@ -29,14 +29,16 @@ class LocalizationJsonFacade {
   }
 
   void generateLocalizationFile() {
-    final projectDirectoryPath = _fileManger.currentDirectory;
     try {
+      print('generting localization file');
       _fetchAllTexts();
       _createTextsMap();
       String localizationContent =
           JsonStringAdapter.convertMapToString(_textMapBuilder.textsMap);
       _fileManger.writeDataToFile(
-          localizationContent, '$projectDirectoryPath/localization.json');
+        localizationContent,
+      );
+      print('done generting localization file , happy editing');
     } catch (err) {
       print('failed to generate localization file');
     }

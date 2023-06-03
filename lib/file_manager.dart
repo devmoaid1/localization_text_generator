@@ -48,8 +48,8 @@ class FileManger {
     return _textMatcher.texts;
   }
 
-  void writeDataToFile(String data, String filePath) {
-    final file = File('${_currentDirectory.path}/app_assets.dart');
+  void writeDataToFile(String data) {
+    final file = File('${_currentDirectory.path}/localization.json');
     file.writeAsStringSync(data);
   }
 }
