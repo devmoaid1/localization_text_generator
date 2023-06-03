@@ -10,7 +10,5 @@ class TextMapBuilder {
     for (final text in texts) {
       _textsMap[text] = '';
     }
-
-    print('text map : $_textsMap');
   }
 }
