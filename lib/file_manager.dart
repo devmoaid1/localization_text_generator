@@ -39,8 +39,8 @@ class FileManger {
         bool isScreenFile = result.$1;
         String content = result.$2;
         if (isScreenFile) {
-          _textMatcher.matchTextWidgets(content);
-          _textMatcher.getAllTexts();
+          _textMatcher.matchAndExtractTexts(content);
+          // _textMatcher.getAllTexts();
         }
       }
     }
