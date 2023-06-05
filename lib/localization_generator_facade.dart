@@ -46,7 +46,7 @@ class LocalizationJsonFacade {
       _fileManger.writeDataToFile(
         localizationContent,
       );
-      print('done generting localization file , happy editing');
+      print('done generating localization file , happy editing');
     } catch (err) {
       print('failed to generate localization file');
     }

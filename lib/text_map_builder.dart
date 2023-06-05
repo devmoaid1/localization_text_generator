@@ -9,11 +9,11 @@ class TextMapBuilder {
     _textsMap = {};
   }
 
-  /// Builds a Map from a List of String(s) with a key of String and value of
-  /// empty String
+  /// Builds a Map from a List of String(s) with a value of String and key of
+  /// a generated name text{number}
   void generateTextMap(List<String> texts) {
-    for (final text in texts) {
-      _textsMap[text] = '';
+    for (int i = 0; i < texts.length; i++) {
+      _textsMap['text-$i'] = texts[i];
     }
   }
 }
