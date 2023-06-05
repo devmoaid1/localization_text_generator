@@ -34,8 +34,7 @@ class FileManger {
   /// StatefulWidget(s)
   (bool, String) _checkIfScreenFile(File file) {
     String content = file.readAsStringSync();
-    bool isScreenFile = content.contains('StatelessWidget') ||
-        content.contains('StatefullWidget');
+    bool isScreenFile = content.contains('Text');
     return (isScreenFile, content);
   }
 
