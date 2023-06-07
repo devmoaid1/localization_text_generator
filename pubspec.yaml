@@ -9,6 +9,7 @@ environment:
 # Add regular dependencies here.
 dependencies:
   glob: ^2.1.2
+  auto_size_text: ^3.0.0
   flutter:
     sdk: flutter
 executables:
