@@ -1,5 +1,6 @@
 import 'package:localization_text_generator/file_manager.dart';
 import 'package:localization_text_generator/json_string_adapter.dart';
+import 'package:localization_text_generator/printer.dart';
 import 'package:localization_text_generator/text_map_builder.dart';
 import 'package:localization_text_generator/text_matcher.dart';
 
@@ -12,11 +13,13 @@ class LocalizationJsonFacade {
   late FileManger _fileManger;
   // Text Map Builder
   late TextMapBuilder _textMapBuilder;
+  late PrintHelper _print;
   // Constructor
   LocalizationJsonFacade() {
     _textMatcher = TextMatcher();
     _fileManger = FileManger(_textMatcher);
     _textMapBuilder = TextMapBuilder();
+    _print = PrintHelper();
   }
 
   /// Gets all files within lib folder, and returns files text
@@ -31,14 +34,15 @@ class LocalizationJsonFacade {
     if (texts.isNotEmpty) {
       _textMapBuilder.generateTextMap(texts);
     } else {
-      print('couldn`t find any texts to generate');
+      _print.error(
+          'Could not find any texts to generate, Please Make Sure you are running this command in your project directory.');
     }
   }
 
-  /// helper func that generator it all
+  /// helper func that generates it all
   void generateLocalizationFile() {
+    _print.init();
     try {
-      print('generating localization file');
       _fetchAllTexts();
       _createTextsMap();
       String localizationContent =
@@ -46,9 +50,9 @@ class LocalizationJsonFacade {
       _fileManger.writeDataToFile(
         localizationContent,
       );
-      print('done generating localization file , happy editing');
+      _print.done('Done generating localization file , Happy Editing!');
     } catch (err) {
-      print('failed to generate localization file');
+      _print.error('Failed to generate localization file!');
     }
   }
 }

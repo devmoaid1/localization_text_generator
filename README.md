@@ -1,6 +1,4 @@
-![Logo](https://i.ibb.co/3Nh5rW3/localization-logo.png)
-
-
+![Logo](https://i.ibb.co/gD1mMqS/glocalization.png)
 # Localization Text Generator
 
 A Dart CLI Tool that can help you generate json file for all texts in all screens in a Flutter project to implement localization
@@ -9,9 +7,9 @@ A Dart CLI Tool that can help you generate json file for all texts in all screen
 
 - Clone the project to your local machine.
 - Run this command in the enclosing folder of the project:
-  ```dart pub global activate --source path      localization_text_generator```
+  ```dart pub global activate --sgit https://github.com/devmoaid1/localization_text_generator```
 
-- run `localization_text_generator` in your project's directory
+- run `glocalization` in your project's directory
 - Enjoy!
 
 ## Authors
