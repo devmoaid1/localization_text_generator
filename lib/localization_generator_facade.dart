@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:localization_text_generator/file_manager.dart';
 import 'package:localization_text_generator/json_string_adapter.dart';
 import 'package:localization_text_generator/printer.dart';
+import 'package:localization_text_generator/progress_bar.dart';
 import 'package:localization_text_generator/text_map_builder.dart';
 import 'package:localization_text_generator/text_matcher.dart';
 
@@ -42,43 +45,42 @@ class LocalizationJsonFacade {
   /// helper func that generates it all
   void generateLocalizationFile() {
     _print.init();
-    Stopwatch watch = Stopwatch()..start();
-    // final bar= FillingBar(total: 100);
+    // Stopwatch watch = Stopwatch()..start();
+    ProgressBar bar =
+        ProgressBar(total: 100, desc: 'Running localization_text_generator...');
+    sleep(Duration(seconds: 1));
+
+    // bar.autoRender();
     try {
       /// Fetching all Text
+      bar.updateIndexAndDesc(10, 'Fetching All Text...');
+      sleep(Duration(seconds: 1));
       _fetchAllTexts();
-      watch.stop();
-      print('Fetch All Text${watch.elapsed}');
-      watch
-        ..reset()
-        ..start();
+      bar.updateIndexAndDesc(89, 'Creating Text Map...');
+      sleep(Duration(seconds: 1));
 
       /// Text Map Creation
       _createTextsMap();
-      watch.stop();
-      print('Create Text Map${watch.elapsed}');
-      watch
-        ..reset()
-        ..start();
+      bar.updateIndexAndDesc(96, 'Converting Map To String...');
+      sleep(Duration(seconds: 1));
 
       /// Converting Map To String
       String localizationContent =
           JsonStringAdapter.convertMapToString(_textMapBuilder.textsMap);
-      watch.stop();
-      print('Map to String: ${watch.elapsed}');
-      watch
-        ..reset()
-        ..start();
+      bar.updateIndexAndDesc(98, 'Generating JSON File...');
+      sleep(Duration(seconds: 1));
 
       /// Writing JSON File
       _fileManger.writeDataToFile(
         localizationContent,
       );
-      watch.stop();
-      print('Write Json File: ${watch.elapsed}');
-      _print.done('Done generating localization file , Happy Editing!');
     } catch (err) {
-      _print.error('Failed to generate localization file!');
+      bar.updateIndexAndDesc(100, 'Error Generating Localization File!',
+          isError: true);
+      return;
     }
+    bar.updateIndexAndDesc(
+        100, 'Done generating localization file , Happy Editing!',
+        isError: false);
   }
 }

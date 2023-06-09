@@ -13,7 +13,6 @@ dependencies:
   flutter:
     sdk: flutter
   chalkdart: ^2.0.9
-  console_bars: ^1.1.0
 executables:
   glocalization: localization_text_generator
 dev_dependencies:
