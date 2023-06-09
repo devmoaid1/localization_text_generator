@@ -133,8 +133,18 @@ class ProgressBar {
     } else {
       frame = printer.done(frame);
     }
-    print(Process.runSync("clear", [], runInShell: true).stdout);
-    printer.init();
+    if (Platform.isWindows) {
+      if (stdout.supportsAnsiEscapes) {
+        stdout.write('\x1B[2J\x1B[3J\x1B[H');
+      } else {
+        // Fallback method
+        final result = Process.runSync('cmd', ['/c', 'cls']);
+        stdout.write(result.stdout);
+      }
+    } else {
+      stdout.write('\x1B[2J\x1B[0;0H');
+    }
+    // printer.init();
     stdout.write(frame);
   }
 }
