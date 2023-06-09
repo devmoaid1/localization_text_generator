@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
+  console_bars:
+    dependency: "direct main"
+    description:
+      name: console_bars
+      sha256: ddd6c51d174b0b02ee5d30e9587d8bfd35060441464364ca9ea77ef610c5dfd9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   convert:
     dependency: transitive
     description:

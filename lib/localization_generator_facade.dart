@@ -42,14 +42,40 @@ class LocalizationJsonFacade {
   /// helper func that generates it all
   void generateLocalizationFile() {
     _print.init();
+    Stopwatch watch = Stopwatch()..start();
+    // final bar= FillingBar(total: 100);
     try {
+      /// Fetching all Text
       _fetchAllTexts();
+      watch.stop();
+      print('Fetch All Text${watch.elapsed}');
+      watch
+        ..reset()
+        ..start();
+
+      /// Text Map Creation
       _createTextsMap();
+      watch.stop();
+      print('Create Text Map${watch.elapsed}');
+      watch
+        ..reset()
+        ..start();
+
+      /// Converting Map To String
       String localizationContent =
           JsonStringAdapter.convertMapToString(_textMapBuilder.textsMap);
+      watch.stop();
+      print('Map to String: ${watch.elapsed}');
+      watch
+        ..reset()
+        ..start();
+
+      /// Writing JSON File
       _fileManger.writeDataToFile(
         localizationContent,
       );
+      watch.stop();
+      print('Write Json File: ${watch.elapsed}');
       _print.done('Done generating localization file , Happy Editing!');
     } catch (err) {
       _print.error('Failed to generate localization file!');
