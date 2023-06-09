@@ -7,7 +7,7 @@ import 'package:localization_text_generator/progress_bar.dart';
 import 'package:localization_text_generator/text_map_builder.dart';
 import 'package:localization_text_generator/text_matcher.dart';
 
-/// A Facade-Pattern based class  helping seperating implementation from client`s code and  extracting text into json format to
+/// A Facade-Pattern based class  helping separating implementation from client`s code and  extracting text into json format to
 /// allow easy implementation of translation of any flutter app.
 class LocalizationJsonFacade {
   // Text Matcher
@@ -17,6 +17,7 @@ class LocalizationJsonFacade {
   // Text Map Builder
   late TextMapBuilder _textMapBuilder;
   late PrintHelper _print;
+  late List<FileSystemEntity> _dartFiles;
   // Constructor
   LocalizationJsonFacade() {
     _textMatcher = TextMatcher();
@@ -25,20 +26,28 @@ class LocalizationJsonFacade {
     _print = PrintHelper();
   }
 
+  /// Listing All Directory Files
+  void _getAllFiles() {
+    _dartFiles = _fileManger.listDirectoryDartFiles();
+    if (_dartFiles.isEmpty) {
+      throw ('Could Not Get Any Files, Please Make Sure you are running this command in your project directory.');
+    }
+  }
+
   /// Gets all files within lib folder, and returns files text
   void _fetchAllTexts() {
-    final dartFiles = _fileManger.listDirectoryDartFiles();
-    _fileManger.getScreensTexts(dartFiles);
+    _fileManger.getScreensTexts(_dartFiles);
+    if (_textMatcher.texts.isEmpty) {
+      throw ('Could Not Find Any Text, Please Make Sure you are running this command in your project directory.');
+    }
   }
 
   /// Creation of texts map
   void _createTextsMap() {
-    final texts = _textMatcher.texts;
-    if (texts.isNotEmpty) {
-      _textMapBuilder.generateTextMap(texts);
+    if (_textMatcher.texts.isNotEmpty) {
+      _textMapBuilder.generateTextMap(_textMatcher.texts);
     } else {
-      _print.error(
-          'Could not find any texts to generate, Please Make Sure you are running this command in your project directory.');
+      throw ('Could not find any texts to generate, Please Make Sure you are running this command in your project directory.');
     }
   }
 
@@ -48,39 +57,37 @@ class LocalizationJsonFacade {
     // Stopwatch watch = Stopwatch()..start();
     ProgressBar bar =
         ProgressBar(total: 100, desc: 'Running localization_text_generator...');
-    sleep(Duration(seconds: 1));
 
     // bar.autoRender();
     try {
+      /// Listing Files
+      bar.updateIndexAndDesc(22, 'Getting All Dart Files...');
+      _getAllFiles();
+
       /// Fetching all Text
-      bar.updateIndexAndDesc(10, 'Fetching All Text...');
-      sleep(Duration(seconds: 1));
+      bar.updateIndexAndDesc(44, 'Fetching All Text...');
       _fetchAllTexts();
-      bar.updateIndexAndDesc(89, 'Creating Text Map...');
-      sleep(Duration(seconds: 1));
+      bar.updateIndexAndDesc(72, 'Creating Text Map...');
 
       /// Text Map Creation
       _createTextsMap();
-      bar.updateIndexAndDesc(96, 'Converting Map To String...');
-      sleep(Duration(seconds: 1));
+      bar.updateIndexAndDesc(85, 'Converting Map To String...');
 
       /// Converting Map To String
       String localizationContent =
           JsonStringAdapter.convertMapToString(_textMapBuilder.textsMap);
-      bar.updateIndexAndDesc(98, 'Generating JSON File...');
-      sleep(Duration(seconds: 1));
+      bar.updateIndexAndDesc(91, 'Generating JSON File...');
 
       /// Writing JSON File
       _fileManger.writeDataToFile(
         localizationContent,
       );
+      bar.updateIndexAndDesc(
+          100, 'Done generating localization file , Happy Editing!',
+          isError: false);
     } catch (err) {
-      bar.updateIndexAndDesc(100, 'Error Generating Localization File!',
-          isError: true);
+      bar.updateIndexAndDesc(0, err.toString(), isError: true);
       return;
     }
-    bar.updateIndexAndDesc(
-        100, 'Done generating localization file , Happy Editing!',
-        isError: false);
   }
 }

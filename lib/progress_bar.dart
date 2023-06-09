@@ -93,21 +93,6 @@ class ProgressBar {
     _render();
   }
 
-  /// Updates Description
-  void updateDesc(
-    String newDesc,
-  ) {
-    _desc = newDesc;
-    _updateMax();
-    _render();
-  }
-
-  /// Increments the _current value
-  void increment() {
-    _current++;
-    _render();
-  }
-
   /// Automatically updates the frame asynchronously
   void autoRender() async {
     while (_clock.isRunning) {

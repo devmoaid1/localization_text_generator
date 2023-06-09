@@ -14,7 +14,7 @@ class PrintHelper {
 
   /// app name and version
   void _nameVersion() => print(
-      chalk.black.onBrightMagenta(' Localization Text Generator: 1.0.0 \n'));
+      chalk.black.onBrightMagenta(' Localization Text Generator: 0.0.1 \n'));
 
   /// prints current task
   String doingTask(String task) => chalk.magentaBright.italic('$task\n');

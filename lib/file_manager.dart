@@ -30,7 +30,7 @@ class FileManger {
     return dartFiles;
   }
 
-  /// Checking if file has a screen  widget currently works on StatelessWidget(s) and
+  /// Using Dart's New Record Feature, Checking if file has a screen  widget currently works on StatelessWidget(s) and
   /// StatefulWidget(s)
   (bool, String) _checkIfScreenFile(File file) {
     String content = file.readAsStringSync();
@@ -38,7 +38,7 @@ class FileManger {
     return (isScreenFile, content);
   }
 
-  /// Ge
+  /// Get Scree
   List<String> getScreensTexts(List<FileSystemEntity> dartFiles) {
     for (final file in dartFiles) {
       // iterate over all files and get content
@@ -57,7 +57,11 @@ class FileManger {
   }
 
   void writeDataToFile(String data) {
-    final file = File('${_currentDirectory.path}/localization.json');
-    file.writeAsStringSync(data);
+    try {
+      final file = File('${_currentDirectory.path}/localization.json');
+      file.writeAsStringSync(data);
+    } catch (e) {
+      throw ('Could Not Write JSON File...');
+    }
   }
 }
