@@ -4,7 +4,7 @@ import 'package:localization_text_generator/printer.dart';
 import 'package:localization_text_generator/text_map_builder.dart';
 import 'package:localization_text_generator/text_matcher.dart';
 
-/// A Facade-Pattern based class helping extracting text into json format to
+/// A Facade-Pattern based class  helping seperating implementation from client`s code and  extracting text into json format to
 /// allow easy implementation of translation of any flutter app.
 class LocalizationJsonFacade {
   // Text Matcher
