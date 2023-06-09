@@ -5,11 +5,16 @@ import 'package:glob/list_local_fs.dart';
 import 'package:localization_text_generator/text_matcher.dart';
 
 class FileManger {
+  /// TextMatcher for current File
   late TextMatcher _textMatcher;
+
+  /// Current Working Directory
   late Directory _currentDirectory;
 
+  /// Current Working Directory Getter
   Directory get currentDirectory => _currentDirectory;
 
+  /// Constructor
   FileManger(TextMatcher textMatcher) {
     _textMatcher = textMatcher;
     _currentDirectory = Directory.current.absolute;
@@ -18,19 +23,22 @@ class FileManger {
     }
   }
 
+  /// List Directories inside lib folder
   List<FileSystemEntity> listDirectoryDartFiles() {
     final dartFiles = Glob('lib/**.dart').listSync();
 
     return dartFiles;
   }
 
+  /// Checking if file has a screen  widget currently works on StatelessWidget(s) and
+  /// StatefulWidget(s)
   (bool, String) _checkIfScreenFile(File file) {
     String content = file.readAsStringSync();
-    bool isScreenFile = content.contains('StatelessWidget') ||
-        content.contains('StatefullWidget');
+    bool isScreenFile = content.contains('Text');
     return (isScreenFile, content);
   }
 
+  /// Ge
   List<String> getScreensTexts(List<FileSystemEntity> dartFiles) {
     for (final file in dartFiles) {
       // iterate over all files and get content
