@@ -2,10 +2,16 @@ import 'dart:io';
 
 import 'package:localization_text_generator/file_manager.dart';
 import 'package:localization_text_generator/json_string_adapter.dart';
-import 'package:localization_text_generator/printer.dart';
-import 'package:localization_text_generator/progress_bar.dart';
+import 'package:localization_text_generator/console_Ui/printer.dart';
 import 'package:localization_text_generator/text_map_builder.dart';
 import 'package:localization_text_generator/text_matcher.dart';
+
+import 'console_Ui/progress_bar.dart';
+
+const jsonComment = '''
+/* This JSON File is generated for you, by localization_text_generator
+https://github.com/devmoaid1/localization_text_generator */\n
+''';
 
 /// A Facade-Pattern based class  helping separating implementation from client`s code and  extracting text into json format to
 /// allow easy implementation of translation of any flutter app.
@@ -80,10 +86,10 @@ class LocalizationJsonFacade {
 
       /// Writing JSON File
       _fileManger.writeDataToFile(
-        localizationContent,
+        jsonComment + localizationContent,
       );
-      bar.updateIndexAndDesc(
-          100, 'Done generating localization file , Happy Editing!',
+      bar.updateIndexAndDesc(100,
+          'Done generating localization file Change it to your language and Happy Editing!',
           isError: false);
     } catch (err) {
       bar.updateIndexAndDesc(0, err.toString(), isError: true);

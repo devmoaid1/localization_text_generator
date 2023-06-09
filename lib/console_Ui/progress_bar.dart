@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:localization_text_generator/printer.dart';
+import 'package:localization_text_generator/console_Ui/printer.dart';
 
 /// A normal bar that fills up when value is updated
 ///
