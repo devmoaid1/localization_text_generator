@@ -45,11 +45,16 @@ class LocalizationJsonFacade {
 
   /// Creation of texts map
   void _createTextsMap() {
-    if (_textMatcher.texts.isNotEmpty) {
+    // if (_textMatcher.texts.isNotEmpty) {
+    try {
       _textMapBuilder.generateTextMap(_textMatcher.texts);
-    } else {
-      throw ('Could not find any texts to generate, Please Make Sure you are running this command in your project directory.');
+    } catch (e) {
+      throw ('Could Not Generate TextMap, Please Add an Issue on our Repo: https://github.com/devmoaid1/localization_text_generator');
     }
+    // }
+    // else {
+    //   throw ('Could not find any texts to generate, Please Make Sure you are running this command in your project directory.');
+    // }
   }
 
   /// helper func that generates it all
@@ -72,6 +77,7 @@ class LocalizationJsonFacade {
 
       /// Text Map Creation
       _createTextsMap();
+
       bar.updateIndexAndDesc(85, 'Converting Map To String...');
 
       /// Converting Map To String

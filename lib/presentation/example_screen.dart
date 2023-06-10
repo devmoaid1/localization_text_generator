@@ -62,6 +62,8 @@ class ExampleScreen extends StatelessWidget {
             ),
           ),
           Text('8 This is hard codded text within the Text Widget '),
+          Text(
+              '10 Also, all of Flutter Community Contributions, I hope I\'m not forgetting anyone :\''),
           Text('''9 Triple
           Quoted
           Text
