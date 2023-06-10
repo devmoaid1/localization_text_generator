@@ -58,7 +58,8 @@ class FileManger {
 
   void writeDataToFile(String data) {
     try {
-      final file = File('${_currentDirectory.path}/localization.json');
+      final file =
+          File('${_currentDirectory.path}/RENAME_TO_YOUR_LANGUAGE.json');
       file.writeAsStringSync(data);
     } catch (e) {
       throw ('Could Not Write JSON File...');
