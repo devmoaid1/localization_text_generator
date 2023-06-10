@@ -35,8 +35,7 @@ class TextMatcher {
             '';
         // adding to [texts] if not empty
         if (text.isNotEmpty) {
-          final processedText = text.replaceAll("\\'", "'");
-          _texts.add(processedText);
+          _texts.add(text);
         }
       }
     }

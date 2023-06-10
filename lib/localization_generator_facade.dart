@@ -83,6 +83,7 @@ class LocalizationJsonFacade {
       /// Converting Map To String
       String localizationContent =
           JsonStringAdapter.convertMapToString(_textMapBuilder.textsMap);
+
       bar.updateIndexAndDesc(91, 'Generating JSON File...');
 
       /// Writing JSON File
