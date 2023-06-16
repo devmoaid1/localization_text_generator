@@ -40,7 +40,7 @@ class FileManger {
   }
 
   /// Get Scree
-  List<String> getScreensTexts(List<FileSystemEntity> dartFiles) {
+  Set<String> getScreensTexts(List<FileSystemEntity> dartFiles) {
     for (final file in dartFiles) {
       // iterate over all files and get content
       if (file is File) {

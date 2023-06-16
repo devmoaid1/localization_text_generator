@@ -29,6 +29,10 @@ class Screen1 extends StatelessWidget {
         ),
         RichText(text: TextSpan(children: [TextSpan(text: 'Richtext')])),
         AutoSizeText("""Example text 6"""),
+        AutoSizeText("""Duplicated Text That Should be added once"""),
+        AutoSizeText("""Duplicated Text That Should be added once"""),
+        AutoSizeText("""Duplicated Text That Should be added once"""),
+        AutoSizeText("""Duplicated Text That Should be added once"""),
         Text('''This is a long text
 that spans across multiple lines
 using triple quotes''')
