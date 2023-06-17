@@ -11,20 +11,20 @@ A Dart CLI Tool that can help you generate json file for all texts in all screen
   `dart pub global activate --source git https://github.com/devmoaid1/localization_text_generator`
 
 - run `glocalization` in your project's directory
-- alt+shift+f or shift+option+f on vscode or option+command+l or ctrl+alt+l on android studio to format json file.
+- (alt+shift+f) or (shift+option+f) on vscode or (option+command+l) or (ctrl+alt+l) on android studio to format json file.
 - change json file name to your desired language.
 - Enjoy!
 
 ## Specs
 
-- [x] Single Quotation Text
-- [x] Double Quotation Text
-- [ ] Triple Single Quotation
-- [x] Triple Double Quotation
-- [x] Excludes Imports
-- [x] Excludes Keys
-- [x] Checks for any file with Cupertino or Material imports
-- [ ] Automatically Check for Updates when launching package.
+- ✅ Single Quotation Text.
+- ✅ Double Quotation Text.
+- ⚠️ Triple Single Quotation.
+- ✅ Triple Double Quotation.
+- ✅ Excludes Imports.
+- ✅ Excludes Keys.
+- ✅ Checks for any file with Cupertino or Material imports.
+- ⚠️ Automatically Check for Updates when launching package.
 
 ## Authors
 
