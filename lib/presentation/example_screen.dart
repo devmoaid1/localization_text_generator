@@ -15,7 +15,6 @@ class _StartPointState extends State<StartPoint> {
     @override
     // ignore: unused_element
     void initState() {
-      // TODO: implement initState
       super.initState();
     }
 
@@ -26,7 +25,6 @@ class _StartPointState extends State<StartPoint> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 }
@@ -44,6 +42,7 @@ class ExampleScreen extends StatelessWidget {
         leading: Text('2 This is text within AppBar'),
       ),
       body: Column(
+        key: ValueKey('keyyyy'),
         children: [
           Text(
             text,

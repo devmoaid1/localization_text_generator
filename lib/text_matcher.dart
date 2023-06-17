@@ -16,11 +16,12 @@ class TextMatcher {
 
   /// extracts texts from dart file content and adds it to [texts]
   void matchAndExtractTexts(String fileContent) {
-    // '''['"]{1}[a-zA-Z0-9[\]()?\/\\]{1,}['"]{1}'''
-    // '''Text\s*\(\s*(?:(?:"([^"]*)")|(?:'([^']*)')|(?:\\?\$([a-zA-Z_]\w*))|(?:\\?\$\{([^}]*)\})|([a-zA-Z_]\w*))'''
+    //  RegExp(
+    //       r'''(?:Text(?:Span|Painter|Theme|Button|Form|Field|FormField|Input|EditingController)?|AutoSizedText|RichText)\s*\(\s*(?:text:\s*)?(['"]{1,3})((?:.|[\r\n])*?)\1\s*(?:,|\))''',
+    //       multiLine: true)
     /// Regular Expression for extraction
     final regex = RegExp(
-        r'''(?:Text(?:Span|Painter|Theme|Button|Form|Field|FormField|Input|EditingController)?|AutoSizedText|RichText)\s*\(\s*(?:text:\s*)?(['"]{1,3})((?:.|[\r\n])*?)\1\s*(?:,|\))''',
+        r'''(?<!import\s)(?<!Key\()(['"])((?:\\\1|(?!\1).)*)\1''',
         multiLine: true);
 
     /// Matching from [fileContent] in matches
