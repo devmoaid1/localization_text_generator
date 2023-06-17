@@ -11,9 +11,9 @@ class TextMapBuilder {
 
   /// Builds a Map from a List of String(s) with a value of String and key of
   /// a generated name text{number}
-  void generateTextMap(List<String> texts) {
+  void generateTextMap(Set<String> texts) {
     for (int i = 0; i < texts.length; i++) {
-      _textsMap['text-$i'] = texts[i];
+      _textsMap['text-$i'] = texts.elementAt(i);
     }
   }
 }
