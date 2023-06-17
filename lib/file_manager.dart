@@ -34,12 +34,13 @@ class FileManger {
   /// StatefulWidget(s)
   (bool, String) _checkIfScreenFile(File file) {
     String content = file.readAsStringSync();
-    bool isScreenFile = content.contains('Text');
+    bool isScreenFile = content.contains('package:flutter/material.dart') ||
+        content.contains('package:flutter/cupertino.dart');
     return (isScreenFile, content);
   }
 
   /// Get Scree
-  List<String> getScreensTexts(List<FileSystemEntity> dartFiles) {
+  Set<String> getScreensTexts(List<FileSystemEntity> dartFiles) {
     for (final file in dartFiles) {
       // iterate over all files and get content
       if (file is File) {

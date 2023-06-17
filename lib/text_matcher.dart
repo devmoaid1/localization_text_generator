@@ -3,15 +3,15 @@
 ///
 class TextMatcher {
   /// private gotten texts
-  late List<String> _texts;
+  late Set<String> _texts;
 
   /// texts getter
-  List<String> get texts => _texts;
+  Set<String> get texts => _texts;
 
   /// Constructor
   TextMatcher() {
     // initialize texts
-    _texts = List.empty(growable: true);
+    _texts = <String>{};
   }
 
   /// extracts texts from dart file content and adds it to [texts]
