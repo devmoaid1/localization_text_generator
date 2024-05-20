@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:localization_text_generator/console_Ui/parse_args.dart';
 import 'package:localization_text_generator/consts/progress.dart';
 import 'package:localization_text_generator/file_manager.dart';
 import 'package:localization_text_generator/json_string_adapter.dart';
@@ -23,13 +24,37 @@ class LocalizationJsonFacade {
   late TextMapBuilder _textMapBuilder;
   late PrintHelper _print;
   late List<FileSystemEntity> _dartFiles;
+  late List<String> _dartFileNames;
+
+  /// Args values initiated in [_initializeArgs]
+  String? path;
+  String? fileName;
+  late bool defaultsToScreensOnly;
+  late bool replaceTextWithVariables;
 
   // Constructor
-  LocalizationJsonFacade() {
+  LocalizationJsonFacade(List<Arg> args) {
+    _initializeArgs(args);
     _textMatcher = TextMatcher();
-    _fileManger = FileManger(_textMatcher);
+    _fileManger = FileManger(
+        _textMatcher, path == null ? Directory.current : Directory(path!));
     _textMapBuilder = TextMapBuilder();
     _print = PrintHelper();
+  }
+
+  _initializeArgs(List<Arg> args) {
+    for (Arg arg in args) {
+      if (arg.name case Name.path) {
+        path = arg.value;
+      } else if (arg.name case Name.defaultsToScreensOnly) {
+        defaultsToScreensOnly = arg.value;
+      } else if (arg.name case Name.replaceTextWithVariables) {
+        replaceTextWithVariables = arg.value;
+      } else if (arg.name case Name.fileName) {
+        fileName = arg.value;
+      }
+    }
+    return;
   }
 
   /// Listing All Directory Files
@@ -37,7 +62,6 @@ class LocalizationJsonFacade {
     try {
       _dartFiles = _fileManger.listDirectoryDartFiles();
     } catch (e) {
-      print(e);
       throw (Exceptions.noFilesFound);
     }
     if (_dartFiles.isEmpty) {
@@ -48,7 +72,7 @@ class LocalizationJsonFacade {
   /// Gets all files within lib folder, and returns files text
   void _fetchAllTexts() {
     try {
-      _fileManger.getScreensTexts(_dartFiles);
+     _dartFileNames= _fileManger.getScreensTexts(_dartFiles, defaultsToScreensOnly);
     } catch (e) {
       throw (Exceptions.noTextFound);
     }
@@ -60,7 +84,7 @@ class LocalizationJsonFacade {
   /// Creation of texts map
   void _createTextsMap() {
     try {
-      _textMapBuilder.generateTextMap(_textMatcher.texts);
+      _textMapBuilder.generateTextMap(_textMatcher.texts,_dartFileNames);
     } catch (e) {
       throw (Exceptions.couldNotGenerateTextMap);
     }
@@ -100,8 +124,8 @@ class LocalizationJsonFacade {
       bar.updateIndexAndDesc(current, Progress.generatingJsonFile);
 
       /// Writing JSON File
-      _fileManger.writeDataToFile(
-        localizationContent,
+      _fileManger.writeDataToJsonFile(
+        localizationContent,name: fileName
       );
       current = 100;
       bar.updateIndexAndDesc(current, Progress.done, isError: false);
