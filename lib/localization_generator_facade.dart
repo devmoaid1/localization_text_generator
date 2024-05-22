@@ -24,7 +24,7 @@ class LocalizationJsonFacade {
   late TextMapBuilder _textMapBuilder;
   late PrintHelper _print;
   late List<FileSystemEntity> _dartFiles;
-  late List<String> _dartFileNames;
+  late List<File> _acceptedFiles;
 
   /// Args values initiated in [_initializeArgs]
   String? path;
@@ -36,13 +36,12 @@ class LocalizationJsonFacade {
   LocalizationJsonFacade(List<Arg> args) {
     _initializeArgs(args);
     _textMatcher = TextMatcher();
-    _fileManger = FileManger(
-        _textMatcher, path == null ? Directory.current : Directory(path!));
-    _textMapBuilder = TextMapBuilder();
+    _fileManger = FileManger(_textMatcher, path == null ? Directory.current : Directory(path!));
+    _textMapBuilder = TextMapBuilder(_fileManger);
     _print = PrintHelper();
   }
 
-  _initializeArgs(List<Arg> args) {
+  void _initializeArgs(List<Arg> args) {
     for (Arg arg in args) {
       if (arg.name case Name.path) {
         path = arg.value;
@@ -72,7 +71,7 @@ class LocalizationJsonFacade {
   /// Gets all files within lib folder, and returns files text
   void _fetchAllTexts() {
     try {
-     _dartFileNames= _fileManger.getScreensTexts(_dartFiles, defaultsToScreensOnly);
+     _acceptedFiles= _fileManger.getScreensTexts(_dartFiles, defaultsToScreensOnly);
     } catch (e) {
       throw (Exceptions.noTextFound);
     }
@@ -84,11 +83,25 @@ class LocalizationJsonFacade {
   /// Creation of texts map
   void _createTextsMap() {
     try {
-      _textMapBuilder.generateTextMap(_textMatcher.texts,_dartFileNames);
+      _textMapBuilder.generateTextMap(_textMatcher.texts,_acceptedFiles);
     } catch (e) {
       throw (Exceptions.couldNotGenerateTextMap);
     }
   }
+  // void _reWriteFiles(){
+  //   for(int i =0; i<_acceptedFiles.length;i++){
+  //     final fileContent = _acceptedFiles[i].readAsStringSync();
+  //     for(int g=0;i<_textMatcher.texts[i].length;g++){
+  //       fileContent.replaceFirst(_textMatcher.texts[i].elementAt(g),
+  //           // TODO: Add a replace Strategy.
+  //           '');
+  //     }
+  //   }
+  // }
+  // TODO: Generate Json dart class.
+void _generateJsonClass(){
+// _fileManger
+}
 
   /// helper func that generates it all
   void generateLocalizationFile() {
@@ -118,8 +131,7 @@ class LocalizationJsonFacade {
       bar.updateIndexAndDesc(current, Progress.convertingMapToString);
 
       /// Converting Map To String
-      String localizationContent =
-          JsonStringAdapter.convertMapToString(_textMapBuilder.textsMap);
+      String localizationContent = JsonStringAdapter.convertMapToJsonString(_textMapBuilder.textsMap);
       current = 91;
       bar.updateIndexAndDesc(current, Progress.generatingJsonFile);
 

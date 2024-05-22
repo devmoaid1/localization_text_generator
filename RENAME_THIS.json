@@ -1,1 +1,27 @@
-{"file_manager-0":"lib","file_manager-1":"${currentDirectory.path}/**.dart","file_manager-2":"${currentDirectory.path}/lib","file_manager-3":"${currentDirectory.path}/lib/**.dart","file_manager-4":"lib/**.dart","file_manager-5":"package:flutter/material.dart","file_manager-6":"package:flutter/cupertino.dart","file_manager-7":"/","file_manager-8":".","file_manager-9":"${_currentDirectory.path}/${name??","file_manager-10":"}.json","file_manager-11":"Could Not Write JSON File...","example_screen-0":"Start Point","example_screen-1":"ExampleScreen","example_screen-2":"0 This is a text within a variable","example_screen-3":"1 This is the second text variable","example_screen-4":"2 This is text within AppBar","example_screen-5":"3 This is Text","example_screen-6":"4 Within","example_screen-7":"5 Rich Text","example_screen-8":"6 $text interpolation within another string","example_screen-9":"7","example_screen-10":"interpolated with +","example_screen-11":"8 This is hard codded text within the Text Widget ","example_screen-12":"8 This is hard \ncodded \rtext within'the \\Text| /Widget ","example_screen-13":"9 This one is Under Construction!\n it will be available soon :) ","example_screen-14":"10 Also, all of Flutter Community Contributions, I hope I'm not forgetting anyone :'","second_screen-0":"first text from screen 2","second_screen-1":"second text from screen 2","second_screen-2":"third text from screen 2","first_screen-0":"first text from screen 1","first_screen-1":"second text from screen 1","first_screen-2":"third text from screen 1","first_screen-3":"$value","first_screen-4":"Richtext","first_screen-5":"Example text 6","first_screen-6":"Duplicated Text That Should be added once"}
+{
+  "file_manager-0": "lib",
+  "file_manager-1": "lib/**.dart",
+  "file_manager-2": "}.json",
+  "file_manager-3": "Could Not Write JSON File...",
+  "presentation-example_screen-0": "0 This is a text within a variable",
+  "presentation-example_screen-1": "1 This is the second text variable",
+  "presentation-example_screen-2": "2 This is text within AppBar",
+  "presentation-example_screen-3": "3 This is Text",
+  "presentation-example_screen-4": "4 Within",
+  "presentation-example_screen-5": "5 Rich Text",
+  "presentation-example_screen-6": "7",
+  "presentation-example_screen-7": "interpolated with +",
+  "presentation-example_screen-8": "8 This is hard codded text within the Text Widget ",
+  "presentation-example_screen-9": "8 This is hard \ncodded \rtext within'the \\Text| /Widget ",
+  "presentation-example_screen-10": "9 This one is Under Construction!\n it will be available soon :) ",
+  "presentation-example_screen-11": "10 Also, all of Flutter Community Contributions, I hope I'm not forgetting anyone :'",
+  "presentation-second_screen-0": "first text from screen 2",
+  "presentation-second_screen-1": "second text from screen 2",
+  "presentation-second_screen-2": "third text from screen 2",
+  "presentation-first_screen-0": "first text from screen 1",
+  "presentation-first_screen-1": "second text from screen 1",
+  "presentation-first_screen-2": "third text from screen 1",
+  "presentation-first_screen-3": "Richtext",
+  "presentation-first_screen-4": "Example text 6",
+  "presentation-first_screen-5": "Duplicated Text That Should be added once"
+}

@@ -55,13 +55,13 @@ class ProgressBar {
   /// - width : Width of the bar (If not specified, it will be automatically calculated using the terminal width and scale)
   ProgressBar(
       {required this.total,
-      this.desc = "",
-      this.space = ".",
-      this.fill = "█",
-      this.time = false,
-      this.percentage = false,
-      this.scale = 0.5,
-      this.width}) {
+        this.desc = "",
+        this.space = ".",
+        this.fill = "█",
+        this.time = false,
+        this.percentage = false,
+        this.scale = 0.5,
+        this.width}) {
     _desc = desc;
     // Handles width of the bar, throws an error if it's not specified and the terminal width is not available
     _updateMax();
@@ -118,7 +118,7 @@ class ProgressBar {
       final rate = _clock.elapsedMicroseconds / (_current == 0 ? 1 : _current);
       final eta = Duration(microseconds: ((total - _current) * rate).toInt());
       timeStr =
-          "[ ${_clock.elapsed.toString().substring(0, 10)} / ${eta.toString().substring(0, 10)} ]";
+      "[ ${_clock.elapsed.toString().substring(0, 10)} / ${eta.toString().substring(0, 10)} ]";
     }
     String perc = '';
     if (percentage) {
@@ -142,7 +142,9 @@ class ProgressBar {
         stdout.write(result.stdout);
       }
     } else {
-      stdout.write('\x1B[2J\x1B[0;0H');
+      stdout.write('\x1B[2J\x1B[3J\x1B[H');
+
+      print(Process.runSync("clear", [], runInShell: true,).stdout);
     }
     printer.init();
     stdout.write(frame);

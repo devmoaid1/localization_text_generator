@@ -28,6 +28,7 @@ class FileManger {
     String glob;
     if(currentDirectory.path.endsWith('lib')){
       glob ='${currentDirectory.path}/**.dart';
+      _currentDirectory=currentDirectory.parent;
     }
     else if (Directory('${currentDirectory.path}/lib').existsSync()){
       glob='${currentDirectory.path}/lib/**.dart';
@@ -50,20 +51,18 @@ class FileManger {
   }
 
   /// Get Scree
-  List<String> getScreensTexts(List<FileSystemEntity> dartFiles,bool checkEnabled) {
-    List<String> acceptedFiles=[];
-    print(dartFiles);
+  List<File> getScreensTexts(List<FileSystemEntity> dartFiles,bool checkEnabled) {
+    List<File> acceptedFiles=[];
     for (final file in dartFiles) {
       // iterate over all files and get content
       if (file is File) {
-        print(file.path);
 
           final result = _checkIfScreenFile(file,checkEnabled);
           bool isScreenFile = result.$1;
           String content = result.$2;
           if (isScreenFile) {
             _textMatcher.matchAndExtractTexts(content);
-           acceptedFiles.add(file.path.split('/').last.split('.').first);
+           acceptedFiles.add(file);
           }
 
 
@@ -82,4 +81,5 @@ class FileManger {
       throw ('Could Not Write JSON File...');
     }
   }
+  void writeDateToDartFile(String content,File file)=> file.writeAsStringSync(content);
 }
