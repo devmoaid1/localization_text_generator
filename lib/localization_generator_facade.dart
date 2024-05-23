@@ -83,21 +83,12 @@ class LocalizationJsonFacade {
   /// Creation of texts map
   void _createTextsMap() {
     try {
-      _textMapBuilder.generateTextMap(_textMatcher.texts,_acceptedFiles);
+      _textMapBuilder.generateTextMap(_textMatcher.texts,_textMatcher.textsWithQuotes,_acceptedFiles);
     } catch (e) {
       throw (Exceptions.couldNotGenerateTextMap);
     }
   }
-  // void _reWriteFiles(){
-  //   for(int i =0; i<_acceptedFiles.length;i++){
-  //     final fileContent = _acceptedFiles[i].readAsStringSync();
-  //     for(int g=0;i<_textMatcher.texts[i].length;g++){
-  //       fileContent.replaceFirst(_textMatcher.texts[i].elementAt(g),
-  //           // TODO: Add a replace Strategy.
-  //           '');
-  //     }
-  //   }
-  // }
+
   // TODO: Generate Json dart class.
 void _generateJsonClass(){
 // _fileManger

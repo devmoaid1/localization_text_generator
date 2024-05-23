@@ -44,15 +44,11 @@ class TextMatcher {
     for (Match match in matches) {
       if (match.groupCount != 0) {
         final textWithQuotes=match.group(0)??'';
-        final text = match.group(2) ??
-            match.group(3) ??
-            match.group(4) ??
-            match.group(5) ??
-            '';
+        final text = match.group(2) ?? match.group(3) ?? match.group(4) ?? match.group(5) ?? '';
         final Uri? link=Uri.tryParse(text);
         final bool isNotLink = link==null?true:!(link.isAbsolute);
         // adding to [texts] if not empty
-        if (text.isNotEmpty&&text.contains('assets/')==false&&text.contains('\$')==false&&isNotLink) {
+        if (text.isNotEmpty&&text.contains('assets/')==false&&text.contains('\$')==false&&text.contains('{')==false&&text.contains('}')==false&&isNotLink) {
          if(textWithQuotes.isNotEmpty) _textsWithQuotes.last.add(match.group(0)!);
           _texts.last.add(text);
         }

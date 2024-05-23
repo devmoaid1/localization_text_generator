@@ -1,8 +1,7 @@
 {
   "file_manager-0": "lib",
   "file_manager-1": "lib/**.dart",
-  "file_manager-2": "}.json",
-  "file_manager-3": "Could Not Write JSON File...",
+  "file_manager-2": "Could Not Write JSON File...",
   "presentation-example_screen-0": "0 This is a text within a variable",
   "presentation-example_screen-1": "1 This is the second text variable",
   "presentation-example_screen-2": "2 This is text within AppBar",
