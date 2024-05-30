@@ -45,7 +45,7 @@ class LocalizationJsonFacade {
     for (Arg arg in args) {
       if (arg.name case Name.path) {
         path = arg.value;
-      } else if (arg.name case Name.defaultsToScreensOnly) {
+      } else if (arg.name case Name.screenOnly) {
         defaultsToScreensOnly = arg.value;
       } else if (arg.name case Name.replaceTextWithVariables) {
         replaceTextWithVariables = arg.value;

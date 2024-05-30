@@ -61,7 +61,7 @@ class FileManger {
           bool isScreenFile = result.$1;
           String content = result.$2;
           if (isScreenFile) {
-            _textMatcher.matchAndExtractTexts(content);
+            _textMatcher.matchAndExtractTexts(content,file.path);
            acceptedFiles.add(file);
           }
 

@@ -4,7 +4,7 @@ import 'package:args/args.dart';
 
 enum Name {
   path(true),
-  defaultsToScreensOnly(false),
+  screenOnly(false),
   replaceTextWithVariables(false),
   fileName(true);
   final bool isOptionOrFlag;
@@ -32,13 +32,8 @@ List<Arg> parseArgs(List<String> arguments) {
       defaultsTo: 'RENAME_THIS',
       help:
           'generated json file name, defaults to: "RENAME_THIS", should be named without ".json".',);
-  parser.addFlag(Name.defaultsToScreensOnly.name,
-      defaultsTo: true,
-      help:
-          'defaults to any screen with "StateFullWidget" or "StatelessWidget" ');
-  parser.addFlag(Name.replaceTextWithVariables.name,
-      defaultsTo: false,
-      help: 'replaces all text in dart files with related variable');
+  parser.addFlag(Name.screenOnly.name, defaultsTo: false, help: 'defaults to any screen with "StateFullWidget" or "StatelessWidget" ');
+  parser.addFlag(Name.replaceTextWithVariables.name, defaultsTo: false, help: 'replaces all text in dart files with related variable');
   ArgResults results = parser.parse(arguments);
   List<Arg> args = [];
   for (Name name in Name.values) {
