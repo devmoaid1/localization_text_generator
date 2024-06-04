@@ -7,7 +7,6 @@ import 'package:localization_text_generator/text_matcher.dart';
 class FileManger {
   /// TextMatcher for current File
   late TextMatcher _textMatcher;
-
   /// Current Working Directory
   late Directory _currentDirectory;
 
@@ -24,7 +23,7 @@ class FileManger {
   }
 
   /// List Directories inside lib folder
-  List<FileSystemEntity> listDirectoryDartFiles() {
+  List<FileSystemEntity> listDirectoryDartFiles(List<String>? excludes) {
     String glob;
     if(currentDirectory.path.endsWith('lib')){
       glob ='${currentDirectory.path}/**.dart';
@@ -36,8 +35,12 @@ class FileManger {
     else{
       glob='lib/**.dart';
     }
-    final dartFiles = Glob(glob,recursive: true).listSync();
-
+    List<FileSystemEntity> dartFiles = Glob(glob,recursive: true).listSync();
+    if(excludes!=null) {
+      for (String exclude in excludes) {
+       dartFiles= dartFiles.where((e)=>e.path.contains(exclude)==false).toList();
+      }
+    }
     return dartFiles;
   }
 
@@ -50,7 +53,7 @@ class FileManger {
     return (isScreenFile, content);
   }
 
-  /// Get Scree
+  /// Get Screen Texts
   List<File> getScreensTexts(List<FileSystemEntity> dartFiles,bool checkEnabled) {
     List<File> acceptedFiles=[];
     for (final file in dartFiles) {
@@ -82,4 +85,20 @@ class FileManger {
     }
   }
   void writeDateToDartFile(String content,File file)=> file.writeAsStringSync(content);
+
+  void createGeneratedDartFile(String fileContent,String fileName){
+    // String path;
+    // if((!path.endsWith('lib'))&&path.contains('lib')){
+    //     path='${path.split('/lib').first}/lib';
+    //   }
+    // else if(!path.contains('lib')&&File('$path/lib').existsSync()){
+    //   path='$path/lib';
+    // }
+    // print('path: $path');
+    String path='${currentDirectory.path}/lib/generated/$fileName.g.dart';
+    if(!File(path).existsSync()){
+      File(path).createSync(recursive: true);
+    }
+    File(path).writeAsStringSync(fileContent);
+  }
 }

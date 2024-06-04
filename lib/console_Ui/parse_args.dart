@@ -2,18 +2,21 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-enum Name {
-  path(true),
-  screenOnly(false),
-  replaceTextWithVariables(false),
-  fileName(true);
-  final bool isOptionOrFlag;
+enum CommandType { option, flag, multiOption }
 
-  const Name(this.isOptionOrFlag);
+enum CommandName {
+  path(CommandType.option),
+  screenOnly(CommandType.flag),
+  replaceTextWithVariables(CommandType.flag),
+  fileName(CommandType.option),
+  exclude(CommandType.multiOption);
+  final CommandType type;
+
+  const CommandName(this.type);
 }
 
 class Arg {
-  final Name name;
+  final CommandName name;
   final dynamic value;
 
   Arg({required this.name, required this.value});
@@ -21,26 +24,28 @@ class Arg {
 
 List<Arg> parseArgs(List<String> arguments) {
   var parser = ArgParser();
-  parser.addOption(Name.path.name,
-      abbr: 'p',
-      defaultsTo: null,
-      help:
-          'defaults to current directory if not used, example: "--path=./" or "-p ."');
+  parser.addOption(CommandName.path.name,
+      abbr: 'p', defaultsTo: null, help: 'defaults to current directory if not used, example: "--path=./" or "-p ."');
   print(Directory.current.path);
-  parser.addOption(Name.fileName.name,
-      abbr: 'n',
-      defaultsTo: 'RENAME_THIS',
-      help:
-          'generated json file name, defaults to: "RENAME_THIS", should be named without ".json".',);
-  parser.addFlag(Name.screenOnly.name, defaultsTo: false, help: 'defaults to any screen with "StateFullWidget" or "StatelessWidget" ');
-  parser.addFlag(Name.replaceTextWithVariables.name, defaultsTo: false, help: 'replaces all text in dart files with related variable');
+  parser.addOption(
+    CommandName.fileName.name,
+    abbr: 'n',
+    defaultsTo: 'RENAME_THIS',
+    help: 'generated json file name, defaults to: "RENAME_THIS", should be named without ".json".',
+  );
+  parser.addFlag(CommandName.screenOnly.name,
+      defaultsTo: true, help: 'defaults to any screen with "StateFullWidget" or "StatelessWidget" ');
+  parser.addFlag(CommandName.replaceTextWithVariables.name, defaultsTo: false, help: 'replaces all text in dart files with related variable');
+  parser.addMultiOption(CommandName.exclude.name, abbr: 'e', defaultsTo: null,help: 'exclude a directory or a path | uses .contain on file paths');
   ArgResults results = parser.parse(arguments);
   List<Arg> args = [];
-  for (Name name in Name.values) {
-    if (name.isOptionOrFlag) {
+  for (CommandName name in CommandName.values) {
+    if (name.type case CommandType.option) {
       args.add(Arg(name: name, value: results.option(name.name)));
-    } else {
+    } else if (name.type case CommandType.flag) {
       args.add(Arg(name: name, value: results.flag(name.name)));
+    } else if (name.type case CommandType.multiOption) {
+      args.add(Arg(name: name, value: results.multiOption(name.name)));
     }
   }
   return args;

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:localization_text_generator/console_Ui/parse_args.dart';
 import 'package:localization_text_generator/consts/progress.dart';
 import 'package:localization_text_generator/file_manager.dart';
+import 'package:localization_text_generator/generate_dart_class.dart';
 import 'package:localization_text_generator/json_string_adapter.dart';
 import 'package:localization_text_generator/console_Ui/printer.dart';
 import 'package:localization_text_generator/text_map_builder.dart';
@@ -25,10 +26,11 @@ class LocalizationJsonFacade {
   late PrintHelper _print;
   late List<FileSystemEntity> _dartFiles;
   late List<File> _acceptedFiles;
-
+  late GenerateDartClasses _generateDartClass;
   /// Args values initiated in [_initializeArgs]
   String? path;
   String? fileName;
+  List<String>? exclude;
   late bool defaultsToScreensOnly;
   late bool replaceTextWithVariables;
 
@@ -36,21 +38,27 @@ class LocalizationJsonFacade {
   LocalizationJsonFacade(List<Arg> args) {
     _initializeArgs(args);
     _textMatcher = TextMatcher();
+
     _fileManger = FileManger(_textMatcher, path == null ? Directory.current : Directory(path!));
-    _textMapBuilder = TextMapBuilder(_fileManger);
+
+    _generateDartClass=GenerateDartClasses(_fileManger.currentDirectory.path);
+
+    _textMapBuilder = TextMapBuilder(_fileManger,_generateDartClass);
     _print = PrintHelper();
   }
 
   void _initializeArgs(List<Arg> args) {
     for (Arg arg in args) {
-      if (arg.name case Name.path) {
+      if (arg.name case CommandName.path) {
         path = arg.value;
-      } else if (arg.name case Name.screenOnly) {
+      } else if (arg.name case CommandName.screenOnly) {
         defaultsToScreensOnly = arg.value;
-      } else if (arg.name case Name.replaceTextWithVariables) {
+      } else if (arg.name case CommandName.replaceTextWithVariables) {
         replaceTextWithVariables = arg.value;
-      } else if (arg.name case Name.fileName) {
+      } else if (arg.name case CommandName.fileName) {
         fileName = arg.value;
+      }else if(arg.name case CommandName.exclude){
+        exclude=arg.value;
       }
     }
     return;
@@ -59,7 +67,7 @@ class LocalizationJsonFacade {
   /// Listing All Directory Files
   void _getAllFiles() {
     try {
-      _dartFiles = _fileManger.listDirectoryDartFiles();
+      _dartFiles = _fileManger.listDirectoryDartFiles(exclude);
     } catch (e) {
       throw (Exceptions.noFilesFound);
     }
@@ -89,10 +97,7 @@ class LocalizationJsonFacade {
     }
   }
 
-  // TODO: Generate Json dart class.
-void _generateJsonClass(){
-// _fileManger
-}
+
 
   /// helper func that generates it all
   void generateLocalizationFile() {

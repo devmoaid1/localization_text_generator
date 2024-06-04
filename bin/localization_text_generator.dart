@@ -7,7 +7,6 @@ void main(List<String> arguments) {
 
   /// creating object from [LocalizationJsonFacade]
   LocalizationJsonFacade localizationGenerator = LocalizationJsonFacade(args);
-
   /// Generate Localization in action
   localizationGenerator.generateLocalizationFile();
 }
