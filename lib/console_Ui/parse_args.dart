@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:args/args.dart';
 
@@ -6,10 +5,12 @@ enum CommandType { option, flag, multiOption }
 
 enum CommandName {
   path(CommandType.option),
+  jsonPath(CommandType.option),
   screenOnly(CommandType.flag),
   replaceTextWithVariables(CommandType.flag),
-  fileName(CommandType.option),
-  exclude(CommandType.multiOption);
+  filename(CommandType.option),
+  exclude(CommandType.multiOption),
+  verbose(CommandType.flag);
   final CommandType type;
 
   const CommandName(this.type);
@@ -24,19 +25,31 @@ class Arg {
 
 List<Arg> parseArgs(List<String> arguments) {
   var parser = ArgParser();
+  /// Multi-Option
+  /// ----------------------------------
+  parser.addMultiOption(CommandName.exclude.name, abbr: 'e', defaultsTo: null,help: 'exclude a directory or a path | uses .contain on file paths');
+
+  /// Options
+  /// ----------------------------------
+  // path
   parser.addOption(CommandName.path.name,
       abbr: 'p', defaultsTo: null, help: 'defaults to current directory if not used, example: "--path=./" or "-p ."');
-  print(Directory.current.path);
+  // json path
+  parser.addOption(CommandName.jsonPath.name,defaultsTo: '');
+  // filename
   parser.addOption(
-    CommandName.fileName.name,
+    CommandName.filename.name,
     abbr: 'n',
     defaultsTo: 'RENAME_THIS',
     help: 'generated json file name, defaults to: "RENAME_THIS", should be named without ".json".',
   );
+  /// Flags
+  /// ----------------------------------
   parser.addFlag(CommandName.screenOnly.name,
       defaultsTo: true, help: 'defaults to any screen with "StateFullWidget" or "StatelessWidget" ');
   parser.addFlag(CommandName.replaceTextWithVariables.name, defaultsTo: false, help: 'replaces all text in dart files with related variable');
-  parser.addMultiOption(CommandName.exclude.name, abbr: 'e', defaultsTo: null,help: 'exclude a directory or a path | uses .contain on file paths');
+  /// ----------------------------------
+  /// ----------------------------------
   ArgResults results = parser.parse(arguments);
   List<Arg> args = [];
   for (CommandName name in CommandName.values) {

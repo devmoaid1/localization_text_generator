@@ -13,7 +13,7 @@ class GenerateDartClasses {
   GenerateDartClasses(String currentDirectory){
     _getPackageName(currentDirectory);
   }
-  String  packageNameFor({required String filename}) =>'''import 'package:$_packageName/generated/$filename.dart';\n''';
+  String  importPackageNameFor({required String filename}) =>'''import 'package:$_packageName/generated/$filename.dart';\n''';
   void addKey(String value) => keys.add(value);
 
   String _generateEnumAndExtension() {
@@ -120,7 +120,6 @@ class GenerateDartClasses {
       final File pubspecYaml = (pubspecYamls.where((e) => e is File && e.path.split('/').last == 'pubspec.yaml').first) as File;
       _packageName = loadYaml(pubspecYaml.readAsStringSync())['name'] ?? '';
     }catch(e){
-      print(e);
       _packageName='';
     }
   }

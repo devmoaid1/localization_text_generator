@@ -1,3 +1,5 @@
+import 'package:localization_text_generator/helpers/generate_json_key.dart';
+
 /// Where magic happens using regular expressions (regex) to extract text within
 /// any dart file
 ///
@@ -10,7 +12,7 @@ class TextMatcher {
   List<Set<String>> get texts => _texts;
 
   List<Set<String>> get textsWithQuotes => _textsWithQuotes;
-  Map<String, bool> data = {};
+  Map<String , (String key,String textWithoutQuotes)> data = {};
 
   /// Constructor
   TextMatcher() {
@@ -26,7 +28,7 @@ class TextMatcher {
     _textsWithQuotes.add({});
 
     /// Regular Expression for extraction
-    final textExtractorExpression = RegExp(r'''(?<!import\s)(?<!fontFamily:\s)(?<!{\s)(?<!//\s)(?<!Key\()(?<!print\()(?<!log\()(?<!RegExp\()(?<!^\/\/\/?\s*)(['"])((?:\\\1|(?!\1).)*)\1''', multiLine: true);
+    final textExtractorExpression = RegExp(r'''(?<!import\s*)(?<!fontFamily:\s*)(?<!{\s*)(?<!//\s*)(?<!Key\()(?<!print\()(?<!log\()(?<!RegExp\()(?<!^\/\/\/?\s*)(['"])((?:(?!\1|(?<!\\)\$\{).)*)\1''', multiLine: true,)  ;
 
     /// Matching from [fileContent] in matches
     final matches = textExtractorExpression.allMatches(fileContent);
@@ -50,14 +52,15 @@ class TextMatcher {
             isNotLink
             && !containsEnglish
         ) {
-          if (textWithQuotes.isNotEmpty) _textsWithQuotes.last.add(match.group(0)!);
-          if (data.containsKey(text) == false) {
-            data[text] = true;
+          // if (textWithQuotes.isNotEmpty) _textsWithQuotes.last.add(match.group(0)!);
+          if (!(data.containsKey(textWithQuotes))) {
+            String key = generateJsonKey(path, texts.last.length);
+
+            data[textWithQuotes] = (key,text);
             _texts.last.add(text);
           }
         }
       }
     }
-    print(data);
   }
 }
