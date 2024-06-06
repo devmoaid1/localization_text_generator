@@ -43,12 +43,8 @@ class LocalizationJsonFacade {
     _generateDartClasses = GenerateDartClasses(_fileManger.currentDirectory.path);
 
     _textMapBuilder = TextMapBuilder(_fileManger, _generateDartClasses);
-    try {
       _printer = PrintHelper();
-    } catch (e, s) {
-      print(e);
-      print(s);
-    }
+
   }
 
   void _initializeArgs(List<Arg> args) {
@@ -106,8 +102,7 @@ class LocalizationJsonFacade {
       final generatedClasses = _generateDartClasses.run();
       _fileManger.createGeneratedDartFile(generatedClasses.$1, 'json_text_mapper');
       _fileManger.createGeneratedDartFile(generatedClasses.$2, 'json_keys');
-    } catch (e, s) {
-      print(s);
+    } catch (e) {
       throw (Exceptions.couldNotGenerateModelOrEnum);
     }
   }

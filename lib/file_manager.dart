@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
+import 'package:localization_text_generator/consts/exceptions.dart';
 import 'package:localization_text_generator/json_string_adapter.dart';
 import 'package:localization_text_generator/text_matcher.dart';
 
@@ -89,7 +90,7 @@ class FileManger {
 
       file.writeAsStringSync(data);
     } catch (e) {
-      throw ('Could Not Write JSON File...');
+      throw (Exceptions.couldNotWriteJsonFile);
     }
   }
   void writeDateToDartFile(String content,File file)=> file.writeAsStringSync(content);
