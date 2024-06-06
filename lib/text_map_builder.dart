@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:localization_text_generator/console_Ui/printer.dart';
+import 'package:localization_text_generator/consts/progress_consts.dart';
 import 'package:localization_text_generator/file_manager.dart';
 
 import 'generate_dart_class.dart';
@@ -20,7 +22,9 @@ class TextMapBuilder {
   /// Builds a Map from a List of String(s) with a value of String and key of
   /// a generated name text{number}
   void generateTextMap(List<Set<String>> texts,List<File> files,Map<String,(String,String)> textsMapQ) {
+    final printer=PrintHelper();
     for(int i=0; i<files.length;i++){
+          printer.updateCurrentProgress(ProgressConsts.editingFiles(i+1, files.length));
           // TODO: Get File Content
           String fileContent = files[i].readAsStringSync();
           String newContent = fileContent;

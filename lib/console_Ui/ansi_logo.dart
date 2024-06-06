@@ -1,8 +1,8 @@
-import 'package:chalkdart/chalk.dart';
-import 'package:chalkdart/chalk_x11.dart';
+
+import 'package:mason_logger/mason_logger.dart';
 
 /// Generated using https://ascii-generator.site
- String logoFile (String version)=>'${chalk.blink.bgYellow.wheat.bold( '''--------------------------------------------------
+ String logoFile (String version)=>'${styleBlink.wrap(cyan.wrap(styleBold.wrap( '''--------------------------------------------------
 ----------*###*==---------------------------------
 --------=###%###%#=--------------+-. =++=---------
 -------=--=*+##*==#-------------++===----=+-------
@@ -19,4 +19,4 @@ import 'package:chalkdart/chalk_x11.dart';
 ------------=+-==+*=-=-::=-::-*====+--------------
 ----------------*+-++--+=--:-*=-#=----------------
 
-''')}    ${chalk.whiteSmoke.bgCyan(' $version ')}\n';
+''')))}    ${white.wrap(backgroundCyan.wrap(styleBold.wrap(' $version ')))}\n';

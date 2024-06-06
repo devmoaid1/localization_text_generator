@@ -117,6 +117,7 @@ void _createJson(){
   /// helper func that generates it all
   void generateLocalizationFile() {
     try {
+      _printer.showLogo();
       _printer.addProgress(ProgressConsts.getAllFiles);
 
       /// Listing Files
@@ -137,8 +138,6 @@ void _createJson(){
       _generateModelAndEnum();
 
       /// Converting Map To String
-      // String localizationContent =
-      //     JsonStringAdapter.convertMapToJsonString(_textMapBuilder.textsMap, _fileManger.currentDirectory);
       _printer.updateProgress(ProgressConsts.generatingJsonFile);
 
       /// Writing JSON File

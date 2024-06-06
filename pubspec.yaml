@@ -12,7 +12,6 @@ dependencies:
   glob: ^2.1.2
   flutter:
     sdk: flutter
-  chalkdart: ^2.0.9
   args: ^2.5.0
   code_builder: ^4.10.0
   dart_style: ^2.3.6

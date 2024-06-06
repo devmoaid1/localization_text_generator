@@ -1,5 +1,4 @@
-import 'package:chalkdart/chalk.dart';
-import 'package:chalkdart/chalk_x11.dart';
+
 import 'package:mason_logger/mason_logger.dart';
 
 import 'ansi_logo.dart';
@@ -7,7 +6,6 @@ import 'ansi_logo.dart';
 class PrintHelper {
   /// Prints logo + App Name + Version + Generating Localization Message
   factory PrintHelper() {
-    _helper._logo();
     return _helper;
   }
 
@@ -15,12 +13,12 @@ class PrintHelper {
 
   PrintHelper._internal();
 
-  final Logger _print = Logger(theme: LogTheme(success: (s) => chalk.greenX11(s), err: (s) => chalk.red(s)));
+  final Logger _print = Logger(theme: LogTheme(success: (s) => green.wrap(s), err: (s) => red.wrap(s),),);
 
   /// Prints the logo in ./ansi_logo.dart
-  void _logo() => _print.info(
+  void showLogo() => _print.info(
         logoFile(
-          'Localization Text Generator: 0.0.3',
+          'Localization Text Generator: 0.1.0',
         ),
       );
 
@@ -31,18 +29,23 @@ class PrintHelper {
   // void _nameVersion() => print(());
   late Progress _progress;
 
-  addProgress(String message) {
+  void addProgress(String message) {
     msg = message;
     _progress = _print.progress(message);
   }
 
-  updateProgress(String message) {
-    _progress.complete(chalk.green(msg));
+ void updateProgress(String message) {
+    _progress.complete(green.wrap(msg));
     msg = message;
     _progress = _print.progress(message);
+
+  }
+  void updateCurrentProgress(String message){
+    msg=message;
+    _progress.update(yellow.wrap(msg)??msg);
   }
 
-  completeProgress() => _progress.complete(chalk.green(msg));
+  void completeProgress() => _progress.complete(green.wrap(msg));
 
-  failed(String error) => _progress.fail(chalk.red(error));
+  void failed(String error) => _progress.fail(red.wrap(error));
 }
