@@ -3,7 +3,7 @@ import 'dart:convert';
 /// Json String Adapter Class
 class JsonStringAdapter {
   /// Conversion of Map to string using [jsonEncode] from dart:convert library
-    static String convertMapToJsonString(Map<String, String> data) {
+     String convertMapToJsonString(Map<String, String> data) {
 
       // Map<String,String> contentOfJson={};
       //
@@ -12,4 +12,5 @@ class JsonStringAdapter {
       //   }
       return jsonEncode(data).replaceAll('\\\\', '\\').replaceAll("\\'", "'");
       }
+      Map<String,String> convertJsonToMap(String json)=>jsonDecode(json);
 }

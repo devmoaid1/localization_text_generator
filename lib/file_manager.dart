@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
+import 'package:localization_text_generator/json_string_adapter.dart';
 import 'package:localization_text_generator/text_matcher.dart';
 
 class FileManger {
@@ -9,7 +10,7 @@ class FileManger {
   late TextMatcher _textMatcher;
   /// Current Working Directory
   late Directory _currentDirectory;
-
+  late JsonStringAdapter _adapter;
   /// Current Working Directory Getter
   Directory get currentDirectory => _currentDirectory;
 
@@ -20,6 +21,7 @@ class FileManger {
     if (!_currentDirectory.existsSync()) {
       _currentDirectory.createSync(recursive: true);
     }
+    _adapter=JsonStringAdapter();
   }
 
   /// List Directories inside lib folder
@@ -75,10 +77,16 @@ class FileManger {
     return acceptedFiles;
   }
 
-  void writeDataToJsonFile(String data,{required String? name}) {
+  void writeDataToJsonFile(Map<String, String> map,{required String? name}) {
     try {
-      final file =
-          File('${_currentDirectory.path}/${name??'RENAME_TO_YOUR_LANGUAGE'}.json');
+      final file = File('${_currentDirectory.path}/${name??'RENAME_TO_YOUR_LANGUAGE'}.json');
+      if(file.existsSync()){
+       final Map<String,String> old= _adapter.convertJsonToMap(file.readAsStringSync());
+       map.addAll(old);
+      }
+
+      final data = _adapter.convertMapToJsonString(map);
+
       file.writeAsStringSync(data);
     } catch (e) {
       throw ('Could Not Write JSON File...');

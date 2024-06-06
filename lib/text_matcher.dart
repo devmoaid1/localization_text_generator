@@ -28,7 +28,7 @@ class TextMatcher {
     _textsWithQuotes.add({});
 
     /// Regular Expression for extraction
-    final textExtractorExpression = RegExp(r'''(?<!import\s*)(?<!fontFamily:\s*)(?<!{\s*)(?<!//\s*)(?<!Key\()(?<!print\()(?<!log\()(?<!RegExp\()(?<!^\/\/\/?\s*)(['"])((?:(?!\1|(?<!\\)\$\{).)*)\1''', multiLine: true,)  ;
+    final textExtractorExpression = RegExp(r'''(?<!import\s*)(?<!fontFamily:\s*)(?<!{\s*)(?<!//\s*)(?<!Key\()(?<!print\()(?<!log\()(?<!RegExp\()(?<!^\/\/\/?\s*)(?<!\w+\s*\()(?<!:\s*)(?<!\{\s*['"])(['"])((?:(?!\1|(?<!\\)\$\{).)*)\1''', multiLine: true,)  ;
 
     /// Matching from [fileContent] in matches
     final matches = textExtractorExpression.allMatches(fileContent);

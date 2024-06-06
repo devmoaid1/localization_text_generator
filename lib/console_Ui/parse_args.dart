@@ -45,6 +45,8 @@ List<Arg> parseArgs(List<String> arguments) {
   );
   /// Flags
   /// ----------------------------------
+  parser.addFlag(CommandName.verbose.name,abbr: 'v',defaultsTo: false,help: 'if verbose or not');
+
   parser.addFlag(CommandName.screenOnly.name,
       defaultsTo: true, help: 'defaults to any screen with "StateFullWidget" or "StatelessWidget" ');
   parser.addFlag(CommandName.replaceTextWithVariables.name, defaultsTo: false, help: 'replaces all text in dart files with related variable');
