@@ -13,6 +13,10 @@ class JsonStringAdapter {
       return jsonEncode(data).replaceAll('\\\\', '\\').replaceAll("\\'", "'");
       }
       Map<String,String> convertJsonToMap(String json) {
+       if(json.isEmpty){
+         return{'example':'this is an example'};
+
+       }
        final Map<String,String> map=(jsonDecode(json) as Map<String,dynamic>).map((k,v)=>MapEntry(k, v.toString()));
        if(map.isEmpty){
          return{'example':'this is an example'};

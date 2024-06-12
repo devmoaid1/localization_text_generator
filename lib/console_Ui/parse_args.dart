@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:args/args.dart';
 
 enum CommandType { option, flag, multiOption }
@@ -33,15 +35,15 @@ List<Arg> parseArgs(List<String> arguments) {
   /// ----------------------------------
   // path
   parser.addOption(CommandName.path.name,
-      abbr: 'p', defaultsTo: null, help: 'defaults to current directory if not used, example: "--path=./" or "-p ."');
+      abbr: 'p', defaultsTo: Directory.current.path, help: 'defaults to current directory if not used, example: "--path=./" or "-p ."');
   // json path
-  parser.addOption(CommandName.jsonPath.name,defaultsTo: '');
+  parser.addOption(CommandName.jsonPath.name,defaultsTo: '${Directory.current.path}/assets/resources');
   // filename
   parser.addOption(
     CommandName.filename.name,
     abbr: 'n',
-    defaultsTo: 'RENAME_THIS',
-    help: 'generated json file name, defaults to: "RENAME_THIS", should be named without ".json".',
+    defaultsTo: 'strings',
+    help: 'generated json file name, defaults to: "strings", should be named without ".json".',
   );
   /// Flags
   /// ----------------------------------

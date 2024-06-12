@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:localization_text_generator/console_Ui/parse_args.dart';
 import 'package:localization_text_generator/console_Ui/printer.dart';
+import 'package:localization_text_generator/exception/detailed_exception.dart';
 import 'package:localization_text_generator/file_manager.dart';
 import 'package:localization_text_generator/generate_dart_class.dart';
 import 'package:localization_text_generator/text_map_builder.dart';
@@ -29,12 +30,15 @@ class LocalizationJsonFacade {
   /// Args values initiated in [_initializeArgs]
   String? path;
   String? filename;
+  String? jsonPath;
   List<String>? exclude;
   late bool defaultsToScreensOnly;
   late bool replaceTextWithVariables;
-
+  late bool verbose;
   // Constructor
   LocalizationJsonFacade(List<Arg> args) {
+    _printer = PrintHelper();
+
     _initializeArgs(args);
     _textMatcher = TextMatcher();
 
@@ -43,12 +47,13 @@ class LocalizationJsonFacade {
     _generateDartClasses = GenerateDartClasses(_fileManger.currentDirectory.path);
 
     _textMapBuilder = TextMapBuilder(_fileManger, _generateDartClasses);
-      _printer = PrintHelper();
 
   }
 
   void _initializeArgs(List<Arg> args) {
+
     for (Arg arg in args) {
+      _printer.print('${arg.name.name}:${arg.value}');
       if (arg.name case CommandName.path) {
         path = arg.value;
       } else if (arg.name case CommandName.screenOnly) {
@@ -60,6 +65,12 @@ class LocalizationJsonFacade {
       } else if (arg.name case CommandName.exclude) {
         exclude = arg.value;
       }
+      else if( arg.name case CommandName.verbose){
+        verbose=arg.value;
+      }
+      else if(arg.name case CommandName.jsonPath){
+        jsonPath=arg.value;
+      }
     }
     return;
   }
@@ -68,11 +79,11 @@ class LocalizationJsonFacade {
   void _getAllFiles() {
     try {
       _dartFiles = _fileManger.listDirectoryDartFiles(exclude);
-    } catch (e) {
-      throw (Exceptions.noFilesFound);
+    } catch (e,s) {
+      throw (DetailedException(stackTrace: s, message: Exceptions.noFilesFound,verboseMessage: e.toString()));
     }
     if (_dartFiles.isEmpty) {
-      throw (Exceptions.noFilesFound);
+      throw (DetailedException( message: Exceptions.noFilesFound,verboseMessage: '_dartFiles is empty'));
     }
   }
 
@@ -80,11 +91,12 @@ class LocalizationJsonFacade {
   void _fetchAllTexts() {
     try {
       _acceptedFiles = _fileManger.getScreensTexts(_dartFiles, defaultsToScreensOnly);
-    } catch (e) {
-      throw (Exceptions.noTextFound);
+    } catch (e,s) {
+      throw (DetailedException(stackTrace: s, message: Exceptions.noTextFound,verboseMessage: e.toString()));
+
     }
     if (_textMatcher.texts.isEmpty) {
-      throw (Exceptions.noTextFound);
+      throw (DetailedException( message: Exceptions.noTextFound,verboseMessage: '_textMatcher.text.isEmpty'));
     }
   }
 
@@ -92,8 +104,9 @@ class LocalizationJsonFacade {
   void _createTextsMap() {
     try {
       _textMapBuilder.generateTextMap(_textMatcher.texts, _acceptedFiles, _textMatcher.data);
-    } catch (e) {
-      throw (Exceptions.couldNotGenerateTextMap);
+    } catch (e,s) {
+      throw (DetailedException(stackTrace: s, message: Exceptions.couldNotGenerateTextMap,verboseMessage: e.toString()));
+
     }
   }
 
@@ -102,15 +115,17 @@ class LocalizationJsonFacade {
       final generatedClasses = _generateDartClasses.run();
       _fileManger.createGeneratedDartFile(generatedClasses.$1, 'json_text_mapper');
       _fileManger.createGeneratedDartFile(generatedClasses.$2, 'json_keys');
-    } catch (e) {
-      throw (Exceptions.couldNotGenerateModelOrEnum);
+    } catch (e,s) {
+      throw (DetailedException(stackTrace: s, message:Exceptions.couldNotGenerateModelOrEnum,verboseMessage: e.toString()));
+
     }
   }
 void _createJson(){
     try{
-      _fileManger.writeDataToJsonFile(_textMapBuilder.textsMap, name: filename);}
-        catch(e){
-      throw(Exceptions.couldNotCreateJsonFile);
+      _fileManger.writeDataToJsonFile(_textMapBuilder.textsMap, name: filename,path:jsonPath);}
+        catch(e,s){
+          throw (DetailedException(stackTrace: s, message:Exceptions.couldNotCreateJsonFile,verboseMessage: e.toString()));
+
         }
     }
 
@@ -143,8 +158,9 @@ void _createJson(){
       /// Writing JSON File
       _createJson();
       _printer.completeProgress();
-    } catch (err) {
-      _printer.failed(err.toString());
+    } on DetailedException catch (e) {
+
+      _printer.failed('${e.message}${verbose?'\n${e.verboseMessage}\n${e.stackTrace}':''}');
 
       return;
     }

@@ -14,7 +14,7 @@ class PrintHelper {
   PrintHelper._internal();
 
   final Logger _print = Logger(theme: LogTheme(success: (s) => green.wrap(s), err: (s) => red.wrap(s),),);
-
+  print(String text)=>_print.info(text);
   /// Prints the logo in ./ansi_logo.dart
   void showLogo() => _print.info(
         logoFile(
